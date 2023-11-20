@@ -67,8 +67,12 @@ const Board = ({ tickets }) => {
       }));
     }
 
+    columns.forEach(column => {
+      column.taskCount = column.tickets.length; // Add a taskCount property
+    });
+  
     return columns.map((column, index) => (
-      <Column key={index} title={column.title} tickets={column.tickets} />
+      <Column key={index} title={column.title} tickets={column.tickets} taskCount={column.taskCount} />
     ));
   };
 

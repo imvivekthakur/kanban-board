@@ -36,6 +36,13 @@ body {
   box-shadow: 0px 1px 5px var(--medium-gray);
   border-radius: 0.5rem;
 }
+
+.count {
+  font-size: 1rem;
+  color: var(--dark-gray);
+  font-weight: 400;
+  margin: 15px;
+}
 .group, .order {
   margin-block: 0.4rem;
   font-weight: 500;

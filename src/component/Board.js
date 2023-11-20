@@ -3,7 +3,7 @@ import Column from "./Column";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleChevronDown, faList } from "@fortawesome/free-solid-svg-icons";
 
-const Board = ({ tickets }) => {
+const Board = ({ tickets, users }) => {
   const [groupBy, setGroupBy] = useState("status");
   const [sortOption, setSortOption] = useState("priority");
   const [showOptions, setShowOptions] = useState(false);
@@ -44,22 +44,31 @@ const Board = ({ tickets }) => {
         title: status,
         tickets: tickets.filter((ticket) => ticket.status === status),
       }));
-    } else if (groupBy === "user") {
-      const users = [...new Set(tickets.map((ticket) => ticket.userId))];
-      columns = users.map((user) => {
-        const userTickets = tickets.filter((ticket) => ticket.userId === user);
+    } 
+    // If we have to group by users
+    else if (groupBy === "user") {
+
+      const usersIds = [...new Set(tickets.map((ticket) => ticket.userId))];
+      columns = usersIds.map((userId) => {
+        const userTickets = tickets.filter((ticket) => ticket.userId === userId);
         const sortedTickets =
           sortOption === "priority"
             ? sortTicketsByPriority(userTickets)
             : sortTicketsByTitle(userTickets);
+
+        // Find the user in the provided users data
+        const user = users.find((user) => user.id === userId);
         return {
-          title: user,
+          title: user?.name || "Unknown User",
           tickets: sortedTickets,
         };
       });
-    } else if (groupBy === "priority") {
-      const priorities = [0, 1, 2, 3, 4]; // Priority values
-      const priorityLabels = ["No Priority", "Low", "Medium", "High", "Urgent"]; // Priority labels for display
+    } 
+    // If we have to group by priority
+    else if (groupBy === "priority") {
+
+      const priorities = [0, 1, 2, 3, 4]; 
+      const priorityLabels = ["No Priority", "Low", "Medium", "High", "Urgent"]; 
 
       columns = priorities.map((priority, index) => ({
         title: priorityLabels[index],
@@ -77,7 +86,13 @@ const Board = ({ tickets }) => {
     });
   
     return columns.map((column, index) => (
-      <Column key={index} title={column.title} tickets={column.tickets} taskCount={column.taskCount} />
+      <Column
+        key={index}
+        title={column.title}
+        tickets={column.tickets}
+        taskCount={column.taskCount}
+        users={users} 
+      />
     ));
   };
 

@@ -11,7 +11,7 @@ const Card = ({ ticket }) => {
       <h4 className="title">{title}</h4>
       <div className="box">
         <FontAwesomeIcon className="more-icon" icon={faEllipsis} />
-        <span className="tag"><div className="circle"></div><div>{tag && tag.join(", ")}</div></span>
+        <span className="tag"><div className="circle"></div><div>{tag}</div></span>
       </div>
     </div>
   );

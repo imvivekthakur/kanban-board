@@ -4,6 +4,7 @@ import Board from './Board';
 
 const Main = () => {
   const [tickets, setTickets] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     // Fetch data from API
@@ -11,6 +12,7 @@ const Main = () => {
       .get('https://api.quicksell.co/v1/internal/frontend-assignment')
       .then((response) => {
         setTickets(response.data.tickets);
+        setUsers(response.data.users);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -19,7 +21,7 @@ const Main = () => {
 
   return (
     <div className="main">
-        <Board tickets={tickets} />
+        <Board tickets={tickets} users={users} />
     </div>
   );
 };

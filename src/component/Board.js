@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Column from "./Column";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faCircleChevronDown, faList } from "@fortawesome/free-solid-svg-icons";
 
 const Board = ({ tickets }) => {
   const [groupBy, setGroupBy] = useState("status");
@@ -67,8 +67,13 @@ const Board = ({ tickets }) => {
       }));
     }
 
-    columns.forEach(column => {
-      column.taskCount = column.tickets.length; // Add a taskCount property
+    columns.forEach((column) => {
+      if (sortOption === "priority") {
+        column.tickets.sort((a, b) => a.priority - b.priority);
+      } else if (sortOption === "title") {
+        column.tickets.sort((a, b) => a.title.localeCompare(b.title));
+      }
+      column.taskCount = column.tickets.length;
     });
   
     return columns.map((column, index) => (
@@ -93,8 +98,9 @@ const Board = ({ tickets }) => {
       <div className="options-box">
         <div className="container">
           <div className="btn" onClick={toggleOptions}>
+            <FontAwesomeIcon className="icon" icon={faList} />
             Display
-            <FontAwesomeIcon className="arrow" icon={faCircleChevronDown} />
+            <FontAwesomeIcon className="icon arrow" icon={faCircleChevronDown} />
           </div>
           {showOptions && (
             <div className="dropdowns">
@@ -110,19 +116,17 @@ const Board = ({ tickets }) => {
                   <option value="priority">Priority</option>
                 </select>
               </div>
-              {groupBy === "user" && (
-                <div className="order">
-                  <label htmlFor="sortOption">Ordering </label>
-                  <select
-                    id="sortOption"
-                    value={sortOption}
-                    onChange={handleSortOptionChange}
-                  >
-                    <option value="priority">Priority</option>
-                    <option value="title">Title</option>
-                  </select>
-                </div>
-              )}
+              <div className="order">
+                <label htmlFor="sortOption">Ordering </label>
+                <select
+                  id="sortOption"
+                  value={sortOption}
+                  onChange={handleSortOptionChange}
+                >
+                  <option value="priority">Priority</option>
+                  <option value="title">Title</option>
+                </select>
+              </div>
             </div>
           )}
         </div>

@@ -67,7 +67,7 @@ body {
 }
 .arrow {
   color: var(--dark-gray);
-  margin-left: 4px;
+  margin-left: 0.8rem;
 }
 
 .container {
@@ -80,6 +80,11 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem; 
+}
+
+.icon {
+  font-size: 1rem;
+  margin-right: 0.4rem;
 }
 
 /* card styling */
